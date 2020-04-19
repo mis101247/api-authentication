@@ -1,8 +1,8 @@
 FROM node:10
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 # Install app dependencies
-COPY package*.json ./
+COPY package.json yarn.lock ./
 RUN yarn install
 # Copy app source code
 COPY . .
