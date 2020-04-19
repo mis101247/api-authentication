@@ -2,6 +2,7 @@ version: "2"
 services:
   node:
     build: .
+    command: yarn dev
     ports:
     - "3000:3000"
     depends_on:
@@ -10,3 +11,5 @@ services:
     image: mongo:4.2
     ports:
     - "27017:27017"
+    volumes:
+    - "./data/mongo/data:/data/db"
