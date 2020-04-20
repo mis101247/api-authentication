@@ -8,7 +8,8 @@ const app: express.Application = express();
 mongoose.Promise = global.Promise;
 mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`, { useNewUrlParser: true })
     .then(() => {
-        console.log('mongodb is connected');
+        console.log('mongodb is connected => ');
+        console.log(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`);
     }).catch(error => {
         console.log('請先確保mongodb環境完成');
         console.error(error);

@@ -3,7 +3,7 @@
 import Route from './route';
 import AuthController from '../controllers/auth.controller';
 import { AuthMiddleware } from '../middleware/auth.middleware';
-import { registerRequest } from '../requests/auth.request';
+import { signUpRequest } from '../requests/auth.request';
 
 class AuthRoute extends Route {
     private authController = new AuthController();
@@ -15,7 +15,7 @@ class AuthRoute extends Route {
     }
 
     protected setRoutes() {
-        this.router.post('/register', registerRequest, this.authController.register);
+        this.router.post('/signup', signUpRequest , this.authController.signup);
     }
 }
 
