@@ -1,20 +1,5 @@
 version: "2"
 services:
-  node:
-    build: .
-    command: >
-            /bin/bash -c "
-            sleep 20;
-            yarn dev;"
-    ports:
-    - "3000:3000"
-    depends_on:
-    - mongo
-    volumes:
-    - ./bin:/home/node/app/bin
-    - ./dist:/home/node/app/dist
-    - ./node_modules:/home/node/app/node_modules
-    - ./.env:/home/node/app/.env
   mongo:
     image: mongo:4.2
     ports:
