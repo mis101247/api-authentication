@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+require('dotenv').config();
 var app = require('../dist/app');
 var debug = require('debug')('keyo:server');
 var http = require('http');

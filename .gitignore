@@ -3,3 +3,6 @@ dist/
 *.log
 data/mongo/*
 !data/mongo/.gitkeep
+
+# 測試環境就先不ignore
+# .env 

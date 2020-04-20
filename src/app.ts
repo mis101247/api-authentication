@@ -5,10 +5,12 @@ import mongoose from 'mongoose';
 
 const app: express.Application = express();
 
-mongoose.connect('mongodb://172.20.0.1:27017/keyo', { useNewUrlParser: true })
+mongoose.Promise = global.Promise;
+mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`, { useNewUrlParser: true })
     .then(() => {
         console.log('mongodb is connected');
     }).catch(error => {
+        console.log('請先確保mongodb環境完成');
         console.error(error);
     });
 
