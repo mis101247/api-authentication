@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UserModel from '../models/user.model';
 import JWT from 'jsonwebtoken';
+import * as AuthService from '../services/auth.service';
 
 const signToken = (user: any) => {
     return JWT.sign({
@@ -23,11 +24,17 @@ class AuthController {
         console.log('name=>', name);
         console.log('email=>', email);
         const newUser = new UserModel({ name, email });
-
-        const token = signToken(newUser);
-
-        await newUser.save();
-        return res.json({ 'token': token });
+        return await newUser.save().then(async() => {
+            const token = signToken(newUser);
+    
+            // 我免費仔用這個sendGrid服務 不是即時的會排隊寄送信件 
+            await AuthService.sendSignSuccess(email);
+            await AuthService.sendCoupon(email);
+    
+            return res.json({ 'token': token });
+        }).catch(() => {
+            return res.status(403).json({ error: 'user save fail!' });
+        });
 
     }
 }
