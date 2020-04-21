@@ -14,8 +14,8 @@ class AuthRoute extends Route {
 
     protected setRoutes() {
         this.router.post('/signup', AuthRequest.signUpRequest , this.authController.signup);
-        this.router.post('/google', AuthRequest.googleRequest , this.authController.google);
-        this.router.post('/facebook', AuthRequest.facebookRequest , this.authController.facebook);
+        this.router.post('/google', AuthRequest.googleRequest );
+        this.router.post('/facebook', AuthRequest.facebookRequest );
     }
 
 }

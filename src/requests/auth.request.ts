@@ -1,6 +1,8 @@
 import { check } from 'express-validator';
 import { authMiddleware, showApiError } from '../middleware/auth.middleware';
 import { Passport } from '../passport';
+import { Request, Response, NextFunction } from 'express';
+import * as AuthService from '../services/auth.service';
 
 // Generate token
 export const signUpRequest = [
@@ -31,13 +33,41 @@ export const signUpRequest = [
 export const googleRequest = [
     check('access_token').exists().withMessage('請輸入access_token'),
     showApiError,
-    Passport.authenticate('googleToken', { session: false })
-    // TODO token invalid res
+    (req: Request, res: Response, next: NextFunction) => {
+        Passport.authenticate('googleToken', { session: false }, function (err, user, info) {
+            if (err) {
+                console.log(err);
+                return res.send({ error: err.name });
+            }
+            if (!user) {
+                return res.send({ success: false, message: 'authentication failed' });
+            }
+
+            // success
+            console.log('req.user=> ', req.user);
+            const token = AuthService.signToken(user, 'google');
+            return res.json({ 'token': token });
+
+        })(req, res, next);
+    },
 ];
 
 export const facebookRequest = [
-    check('access_token').exists().withMessage('請輸入access_token'),
-    showApiError,
-    Passport.authenticate('facebookToken', { session: false })
-    // TODO token invalid res
+    (req: Request, res: Response, next: NextFunction) => {
+        Passport.authenticate('facebookToken', { session: false }, function (err, user, info) {
+            if (err) {
+                console.log(err);
+                return res.send({ error: err.name });
+            }
+            if (!user) {
+                return res.send({ success: false, message: 'authentication failed' });
+            }
+
+            // success
+            console.log('req.user=> ', req.user);
+            const token = AuthService.signToken(user, 'google');
+            return res.json({ 'token': token });
+
+        })(req, res, next);
+    },
 ];

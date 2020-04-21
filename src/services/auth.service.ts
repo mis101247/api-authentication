@@ -1,5 +1,16 @@
-import { MailService } from './main.service';
+import JWT from 'jsonwebtoken';
+export const signToken = (user: any, method: 'email' | 'google' | 'facebook') => {
+    const timeNow = Math.floor(new Date().getTime() / 1000);
+    return JWT.sign({
+        iss: 'KeyoServer',
+        method: method,
+        sub: user.id,
+        iat: timeNow,
+        exp: timeNow + (60 * 60 * 24 * 1),
+    }, 'the_key');
+}
 
+import { MailService } from './main.service';
 const fromEmail = process.env.SENDGRID_EMAIL || '';
 
 export const sendSignSuccess = async (toEmail: string): Promise<void> => {
@@ -12,12 +23,11 @@ export const sendSignSuccess = async (toEmail: string): Promise<void> => {
             `,
     };
     await MailService.send(msg).catch((error) => {
-            console.error('sgMail.send=> ', error.response.body);
-        });
+        console.error('sgMail.send=> ', error.response.body);
+    });
 
     return;
 }
-
 
 export const sendCoupon = async (toEmail: string): Promise<void> => {
     const msg = {
@@ -29,9 +39,8 @@ export const sendCoupon = async (toEmail: string): Promise<void> => {
             `,
     };
     await MailService.send(msg).catch((error) => {
-            console.error('sgMail.send=> ', error.response.body);
-        });
+        console.error('sgMail.send=> ', error.response.body);
+    });
 
     return;
 }
-
