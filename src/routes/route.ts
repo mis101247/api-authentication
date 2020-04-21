@@ -1,6 +1,4 @@
-
-import { Router } from "express";
-
+import { Router } from 'express';
 abstract class Route {
     protected router = Router();
     protected abstract setRoutes(): void;

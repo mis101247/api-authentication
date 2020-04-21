@@ -1,5 +1,6 @@
 import { check } from 'express-validator';
-import { showApiError } from '../middleware/auth.middleware';
+import { authMiddleware, showApiError } from '../middleware/auth.middleware';
+import { Passport } from '../passport';
 
 // Generate token
 export const signUpRequest = [
@@ -18,11 +19,16 @@ export const signUpRequest = [
     // 驗證確認密碼欄位
     check('repassword')
         .exists().withMessage('請再次輸入密碼確認')
-        .custom((value, { req }) => {
+        .custom((value: any, { req }: any) => {
             if (value !== req.body.password) {
                 throw new Error('確認密碼輸入不正確')
             }
             return true
         }),
     showApiError
+];
+
+export const googleRequest = [
+    // authMiddleware,
+    Passport.authenticate('googleToken', { session: false }),
 ];

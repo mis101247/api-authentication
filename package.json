@@ -16,6 +16,11 @@
     "mongoose": "^5.9.9",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-facebook-token": "^3.3.0",
+    "passport-google-plus-token": "^2.1.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
@@ -23,6 +28,9 @@
     "@types/express-validator": "^3.0.0",
     "@types/jsonwebtoken": "^8.3.9",
     "@types/mongoose": "^5.7.12",
-    "@types/morgan": "^1.9.0"
+    "@types/morgan": "^1.9.0",
+    "@types/passport": "^1.0.3",
+    "@types/passport-jwt": "^3.0.3",
+    "@types/passport-local": "^1.0.33"
   }
 }

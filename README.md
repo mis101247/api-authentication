@@ -1,8 +1,19 @@
 # express-skeleton
 
 ## 執行
+
+-  mongoDB
 ```
 docker-composer up
+```
+
+```
+# 先install
+yarn install
+# or npm install
+
+yarn dev
+# or npm run dev
 ```
 
 ## 架構圖
@@ -10,8 +21,10 @@ docker-composer up
 /src
   controllers/
   middleware/
+  models/
   requests/
   routes/
+  services/
   app.ts
   router.ts
 

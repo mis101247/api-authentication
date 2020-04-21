@@ -3,12 +3,14 @@ import UserModel from '../models/user.model';
 import JWT from 'jsonwebtoken';
 import * as AuthService from '../services/auth.service';
 
-const signToken = (user: any) => {
+const signToken = (user: any, method: 'email' | 'google' | 'facebook') => {
+    const timeNow = Math.floor(new Date().getTime() / 1000);
     return JWT.sign({
         iss: 'KeyoServer',
+        method: method,
         sub: user.id,
-        iat: new Date().getTime(),
-        exp: new Date().setDate(new Date().getDate() + 1),
+        iat: timeNow,
+        exp: timeNow + (60 * 60 * 24 * 1),
     }, 'the_key');
 }
 
@@ -24,19 +26,26 @@ class AuthController {
         console.log('name=>', name);
         console.log('email=>', email);
         const newUser = new UserModel({ name, email });
-        return await newUser.save().then(async() => {
-            const token = signToken(newUser);
-    
-            // 我免費仔用這個sendGrid服務 不是即時的會排隊寄送信件 
+
+        return await newUser.save().then(async () => {
+            const token = signToken(newUser, 'email');
+
+            // 我免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
             await AuthService.sendSignSuccess(email);
             await AuthService.sendCoupon(email);
-    
+
             return res.json({ 'token': token });
         }).catch(() => {
             return res.status(403).json({ error: 'user save fail!' });
         });
 
     }
-}
 
+    async google(req: Request, res: Response) {
+        console.log('req.user=> ', req.user);
+        const token = signToken(req.user, 'google');
+        return res.json({ 'token': token });
+    }
+
+}
 export default AuthController;

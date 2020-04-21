@@ -1,9 +1,7 @@
 // src/routes/auth.route.ts
-
 import Route from './route';
 import AuthController from '../controllers/auth.controller';
-import { AuthMiddleware } from '../middleware/auth.middleware';
-import { signUpRequest } from '../requests/auth.request';
+import * as AuthRequest from '../requests/auth.request';
 
 class AuthRoute extends Route {
     private authController = new AuthController();
@@ -15,8 +13,10 @@ class AuthRoute extends Route {
     }
 
     protected setRoutes() {
-        this.router.post('/signup', signUpRequest , this.authController.signup);
+        this.router.post('/signup', AuthRequest.signUpRequest , this.authController.signup);
+        this.router.post('/google', AuthRequest.googleRequest , this.authController.google);
     }
+
 }
 
 export default AuthRoute;
