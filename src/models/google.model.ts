@@ -9,12 +9,11 @@ const googleSchema = new Schema({
         unique: true
     },
     email: {
-        type: Array,
+        type: String,
         required: true,
     },
     name: {
         type: String,
-        required: true,
     }
 });
 

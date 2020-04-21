@@ -20,9 +20,11 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
     passReqToCallback: true
 }, async (req: Request, accessToken: string, refreshToken: string, profile: any, done: any) => {
     try {
+        console.log('googleToken profile=>', profile);
+
         const uid = profile.id;
         const name = profile.displayName;
-        const email = profile.emails;
+        const email = profile.emails[0].value;
         const existingGoogle = await GoogleModel.findOne({ uid });
         if (existingGoogle) {
             return done(null, existingGoogle);
@@ -33,8 +35,8 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
         await newGoogleUser.save();
 
         // 免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
-        await AuthService.sendSignSuccess(email[0].value);
-        await AuthService.sendCoupon(email[0].value);
+        await AuthService.sendSignSuccess(email);
+        await AuthService.sendCoupon(email);
 
         done(null, newGoogleUser);
     } catch (error) {
@@ -49,9 +51,10 @@ passport.use('facebookToken', new FacebookTokenStrategy({
     passReqToCallback: true
 }, async (req: Request, accessToken: string, refreshToken: string, profile: any, done: any) => {
     try {
+        console.log('facebookToken profile=>', profile);
         const uid = profile.id;
         const name = profile.displayName;
-        const email = profile.emails;
+        const email = profile.emails[0].value;
         const existingFacebook = await FacebookModel.findOne({ uid });
         if (existingFacebook) {
             return done(null, existingFacebook);
@@ -62,9 +65,9 @@ passport.use('facebookToken', new FacebookTokenStrategy({
         await newFacebookUser.save();
 
         // 免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
-        await AuthService.sendSignSuccess(email[0].value);
-        await AuthService.sendCoupon(email[0].value);
-        
+        await AuthService.sendSignSuccess(email);
+        await AuthService.sendCoupon(email);
+
         done(null, newFacebookUser);
     } catch (error) {
         console.log('facebookToken error=>', error);
