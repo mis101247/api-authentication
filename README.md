@@ -14,7 +14,7 @@ yarn install
 # or npm install
 
 # 若無先tsc第一次跑會看到一下下 error 但沒事兒
-tsc
+yarn tsc
 
 yarn dev
 # or npm run dev
