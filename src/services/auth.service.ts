@@ -12,7 +12,6 @@ export const signToken = (user: any, method: 'email' | 'google' | 'facebook') =>
 
 import { MailService } from './main.service';
 const fromEmail = process.env.SENDGRID_EMAIL || '';
-
 export const sendSignSuccess = async (toEmail: string): Promise<void> => {
     const msg = {
         to: toEmail,
@@ -23,7 +22,7 @@ export const sendSignSuccess = async (toEmail: string): Promise<void> => {
             `,
     };
     await MailService.send(msg).catch((error) => {
-        console.error('sgMail.send=> ', error.response.body);
+        console.error('sgMail.send=> ', error.response?.body || error);
     });
 
     return;
@@ -39,7 +38,7 @@ export const sendCoupon = async (toEmail: string): Promise<void> => {
             `,
     };
     await MailService.send(msg).catch((error) => {
-        console.error('sgMail.send=> ', error.response.body);
+        console.error('sgMail.send=> ', error.response?.body || error);
     });
 
     return;

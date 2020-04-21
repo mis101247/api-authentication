@@ -36,15 +36,15 @@ export const googleRequest = [
     (req: Request, res: Response, next: NextFunction) => {
         Passport.authenticate('googleToken', { session: false }, function (err, user, info) {
             if (err) {
-                console.log(err);
+                console.error('err=>', err);
                 return res.send({ error: err.name });
             }
             if (!user) {
-                return res.send({ success: false, message: 'authentication failed' });
+                return res.send({ error: 'authentication failed' });
             }
 
             // success
-            console.log('req.user=> ', req.user);
+            console.log('user=> ', user);
             const token = AuthService.signToken(user, 'google');
             return res.json({ 'token': token });
 
@@ -56,16 +56,17 @@ export const facebookRequest = [
     (req: Request, res: Response, next: NextFunction) => {
         Passport.authenticate('facebookToken', { session: false }, function (err, user, info) {
             if (err) {
-                console.log(err);
+                console.error('err=>', err);
                 return res.send({ error: err.name });
             }
+
             if (!user) {
-                return res.send({ success: false, message: 'authentication failed' });
+                return res.send({ error: 'authentication failed' });
             }
 
             // success
-            console.log('req.user=> ', req.user);
-            const token = AuthService.signToken(user, 'google');
+            console.log('user=> ', user);
+            const token = AuthService.signToken(user, 'facebook');
             return res.json({ 'token': token });
 
         })(req, res, next);

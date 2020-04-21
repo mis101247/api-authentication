@@ -18,7 +18,7 @@ class AuthController {
         return await newUser.save().then(async () => {
             const token = AuthService.signToken(newUser, 'email');
 
-            // 我免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
+            // 免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
             await AuthService.sendSignSuccess(email);
             await AuthService.sendCoupon(email);
 
