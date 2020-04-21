@@ -31,8 +31,6 @@ yarn dev
   
 ## Request / Response
 
-## Create a new Thing
-
 ### Request
 
 `POST /thing/`
@@ -97,7 +95,7 @@ Content-Type: application/json
     "token": "A JWT TOKEN"
 }
 ```
-- error
+error
 ```
 {
     "error": [
