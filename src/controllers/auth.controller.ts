@@ -47,5 +47,10 @@ class AuthController {
         return res.json({ 'token': token });
     }
 
+    async facebook(req: Request, res: Response) {
+        console.log('req.user=> ', req.user);
+        const token = signToken(req.user, 'facebook');
+        return res.json({ 'token': token });
+    }
 }
 export default AuthController;

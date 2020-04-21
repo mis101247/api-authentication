@@ -29,6 +29,15 @@ export const signUpRequest = [
 ];
 
 export const googleRequest = [
-    // authMiddleware,
-    Passport.authenticate('googleToken', { session: false }),
+    check('access_token').exists().withMessage('請輸入access_token'),
+    showApiError,
+    Passport.authenticate('googleToken', { session: false })
+    // TODO token invalid res
+];
+
+export const facebookRequest = [
+    check('access_token').exists().withMessage('請輸入access_token'),
+    showApiError,
+    Passport.authenticate('facebookToken', { session: false })
+    // TODO token invalid res
 ];

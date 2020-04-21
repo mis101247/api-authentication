@@ -2,8 +2,10 @@ import passport from 'passport';
 import passportJwt from 'passport-jwt';
 import passportLocal from 'passport-local';
 import GooglePlusTokenStrategy from 'passport-google-plus-token';
+import FacebookTokenStrategy from 'passport-facebook-token'; 
 import UserModel from './models/user.model';
 import GoogleModel from './models/google.model';
+import FacebookModel from './models/facebook.model';
 
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
@@ -18,9 +20,6 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
     passReqToCallback: true
 }, async (req: Request, accessToken: string, refreshToken: string, profile: any, done: any) => {
     try {
-        console.log('accessToken=>', accessToken)
-        console.log('refreshToken=>', refreshToken)
-        console.log('profile=>', profile)
         const uid = profile.id;
         const name = profile.displayName;
         const email = profile.emails;
@@ -33,7 +32,29 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
         await newGoogleUser.save();
         done(null, newGoogleUser);
     } catch (error) {
-        console.log('eeee=>', error)
+        done(error, false, error.message);
+    }
+}));
+
+// Facebook Token
+passport.use('facebookToken', new FacebookTokenStrategy({
+    clientID: process.env.FACEBOOK_CLIENT_ID || '',
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET || '',
+    passReqToCallback: true
+}, async (req: Request, accessToken: string, refreshToken: string, profile: any, done: any) => {
+    try {
+        const uid = profile.id;
+        const name = profile.displayName;
+        const email = profile.emails;
+        const existingFacebook = await FacebookModel.findOne({ uid });
+        if (existingFacebook) {
+            return done(null, existingFacebook);
+        }
+        const newFacebookUser = new FacebookModel({ uid, name, email });
+
+        await newFacebookUser.save();
+        done(null, newFacebookUser);
+    } catch (error) {
         done(error, false, error.message);
     }
 }));
