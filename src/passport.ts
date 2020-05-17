@@ -5,7 +5,6 @@ import GooglePlusTokenStrategy from 'passport-google-plus-token';
 import FacebookTokenStrategy from 'passport-facebook-token';
 import GoogleModel from './models/google.model';
 import FacebookModel from './models/facebook.model';
-import * as AuthService from './services/auth.service';
 
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
@@ -34,10 +33,6 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
         const newGoogleUser = new GoogleModel({ uid, name, email });
         await newGoogleUser.save();
 
-        // 免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
-        await AuthService.sendSignSuccess(email);
-        await AuthService.sendCoupon(email);
-
         done(null, newGoogleUser);
     } catch (error) {
         done(error, false, error.message);
@@ -63,10 +58,6 @@ passport.use('facebookToken', new FacebookTokenStrategy({
         // 新會員加入
         const newFacebookUser = new FacebookModel({ uid, name, email });
         await newFacebookUser.save();
-
-        // 免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
-        await AuthService.sendSignSuccess(email);
-        await AuthService.sendCoupon(email);
 
         done(null, newFacebookUser);
     } catch (error) {

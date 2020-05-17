@@ -18,10 +18,6 @@ class AuthController {
         return await newUser.save().then(async () => {
             const token = AuthService.signToken(newUser, 'email');
 
-            // 免費仔用sendGrid服務 會排隊寄送信件可能不會馬上就收到
-            await AuthService.sendSignSuccess(email);
-            await AuthService.sendCoupon(email);
-
             return res.json({ 'token': token });
         }).catch(() => {
             return res.status(403).json({ error: 'user save fail!' });
