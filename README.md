@@ -1,6 +1,6 @@
 # api-authentication
 
-## 執行
+## Usage & Build
 
 -  mongoDB
 ```
@@ -9,25 +9,25 @@ docker-composer up
 
 -  node.js Server
 ```
-# 先install
+# install the packages first
 yarn install
 # or npm install
 
-# 若無先tsc第一次跑會看到一下下 error 但沒事兒
+# tsc is executed first(If didn't execute, an error will be displayed but it does not matter)
 yarn tsc
 
 yarn dev
 # or npm run dev
 ```
 
-## access_token 取得
+## Get access_token
 
 - [Google](https://developers.google.com/oauthplayground/)
-  - 選擇 Google OAuth2 API v2
-    -  勾選 `https://www.googleapis.com/auth/userinfo.email`
+  - Google OAuth2 API v2
+    -  pick `https://www.googleapis.com/auth/userinfo.email`
 
 - [Facebook](https://developers.facebook.com/tools/explorer/)
-  - 選擇 email
+  - pick email
   
 ## Request / Response
 
@@ -71,7 +71,7 @@ yarn dev
 ## Get a non-existent Thing
 
 
-### Email註冊
+### Email registration
 
 #### Request
 
@@ -133,7 +133,7 @@ error
 }
 ```
 
-### Google註冊
+### Google registration
 
 #### Request
 
@@ -161,7 +161,7 @@ error
 }
 ```
 
-### Facebook註冊
+### Facebook registration
 
 #### Request
 
@@ -191,7 +191,7 @@ error
 
   
 
-## 架構圖
+## Directory Structure
 
 ```
 /src
